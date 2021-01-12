@@ -33,7 +33,8 @@ public class PerimeterAssignmentRunner {
 
     public double getAverageLength(Shape s) {
         // Put code here
-        return 0.0;
+        double averageLength = getPerimeter(s)/getNumPoints(s);
+        return averageLength;
     }
 
     public double getLargestSide(Shape s) {
@@ -64,6 +65,7 @@ public class PerimeterAssignmentRunner {
         System.out.println("perimeter = " + length);
         int numPoints = getNumPoints(s);
         System.out.println("numPoints = " + numPoints);
+        System.out.println("averageLength = " + getAverageLength(s));
     }
     
     public void testPerimeterMultipleFiles() {
