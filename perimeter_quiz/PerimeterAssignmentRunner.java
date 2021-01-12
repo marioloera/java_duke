@@ -22,7 +22,13 @@ public class PerimeterAssignmentRunner {
 
     public int getNumPoints (Shape s) {
         // Put code here
-        return 0;
+        int numPoints = 0;
+        // For each point p in the shape,
+        for (Point p : s.getPoints()) {
+            numPoints += 1;
+        }
+        // totalPerim is the answer
+        return numPoints;
     }
 
     public double getAverageLength(Shape s) {
@@ -56,6 +62,8 @@ public class PerimeterAssignmentRunner {
         Shape s = new Shape(fr);
         double length = getPerimeter(s);
         System.out.println("perimeter = " + length);
+        int numPoints = getNumPoints(s);
+        System.out.println("numPoints = " + numPoints);
     }
     
     public void testPerimeterMultipleFiles() {
