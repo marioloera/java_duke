@@ -12,28 +12,32 @@ import java.util.ArrayList;
 public class Part4 {
 
     public String getUrlLikeBase(String url, String base){
-        String r = "";
-        int n = 0;
-        int indexA = 0;
+        /**  Part 4: Finding Web Links
+            Write a program that reads the lines from the file
+            at this URL location:
+            http://www.dukelearntoprogram.com/course2/data/manylinks.html
+            and prints each URL on the page that is a link to youtube.com.
+            Assume that a link to youtube.com has no spaces in it and would be
+            in the format (where [stuff] represents characters that are not
+            verbatim): “http:[stuff]youtube.com[stuff]”
 
-        // while (indexA < stringB.length()){
-        //     indexA = stringB.indexOf(stringA, indexA);
-        //     if (indexA == -1){
-        //         break;
-        //     }
-        //     indexA += stringA.length();
-        //     n += 1;
-        // }
+         */
+        int pos = url.toLowerCase().indexOf(base);
+        if (pos == -1){
+            return "";
+        }
+        int start = 1 + url.lastIndexOf("\"", pos);
+        int end = url.indexOf("\"", pos + base.length());
+        String r = url.substring(start, end); 
         return r;
     }
 
     public ArrayList<String> GetLines(String url){
         ArrayList<String> lines = new ArrayList<String>();
         URLResource file = new  URLResource(url);
-   	for (String item : file.words()) {
-   	    lines.add(item);
-   	}
-        lines.add("Ford");
+        for (String item : file.words()) {
+            lines.add(item);
+        }
         return lines;
     }
 
@@ -44,7 +48,9 @@ public class Part4 {
         ArrayList<String> lines = GetLines(url);
         for (String l : lines) {
             String r = getUrlLikeBase(l, base);
-            System.out.println(l + ' ' + r);
+            if (!(r.equals(""))){
+                System.out.println(r);
+            }
         }
     }
 
