@@ -1,5 +1,6 @@
 import edu.duke.*;
 import java.io.File;
+import java.util.HashMap;
 /**
  * Write a description of Part1 here.
  * 
@@ -47,8 +48,38 @@ public class Part1 {
         return gen;
     }
 
-    public void test() {
+    public void testFindSimpleGene(){
+        System.out.println("Start testFindSimpleGene  ");
+        HashMap<String, String> examples = new HashMap<String, String>();
 
+        examples.put("ATGAAATAA", "ATGAAATAA");
+        examples.put("ATGAAATAAz", "ATGAAATAA");
+        examples.put("ATGAAAGGGTAA", "ATGAAAGGGTAA");
+        examples.put("ATGAATAA", "");
+        examples.put("TTGAAATAA", "");
+        examples.put("ATGAAATGA", "");
+        examples.put("13432434234", "");
+        examples.put("TTATGAAATAATT", "ATGAAATAA");
+        examples.put("xxxATGTTTTAAyyy", "ATGTTTTAA");
+        String value;
+        String gen;
+        String msg;
+        String okMsg;
+        String notOkMsg;
+        // Print keys
+        for (String key : examples.keySet()) {
+            value = examples.get(key);
+            gen = findSimpleGene(key);
+            okMsg = "ok " + key + ": " + gen;
+            notOkMsg = "error! for:" + key + " expected:" + value + " got:" + gen;
+            msg = (gen.equals(value)) ? okMsg : notOkMsg;
+            System.out.println(msg);
+        }
+        
+    }
+
+    public void test() {
+        testFindSimpleGene();
     }
 
     public static void main (String[] args) {
