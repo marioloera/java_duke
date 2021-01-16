@@ -66,25 +66,17 @@ public class Part3 {
 
     public int nOccurrences(String stringA, String stringB){
 
-        int lengthA = stringA.length();
         int n = 0;
-        int indexA_prev = 0;
         int indexA = 0;
-        
 
-        indexA = stringB.indexOf(stringA, indexA_prev);
-        if (indexA == -1){
-            return n;
+        while (indexA < stringB.length()){
+            indexA = stringB.indexOf(stringA, indexA);
+            if (indexA == -1){
+                break;
+            }
+            indexA += stringA.length();
+            n += 1;
         }
-        n += 1;
-        indexA_prev = indexA + lengthA;
-
-        indexA = stringB.indexOf(stringA, indexA_prev);
-        if (indexA == -1){
-            return n;
-        }
-        n += 1;
-        indexA_prev = indexA + lengthA;
         return n;
     }
 
@@ -115,12 +107,16 @@ public class Part3 {
             doc string in java
         */
         System.out.println("Start testnOccurrences!");
-        TestData[] arr = new TestData[5];
-        arr[0] = new TestData("a1a2a3a4", "a", 4);
-        arr[1] = new TestData("A story by Abby Long", "by", 2);
-        arr[2] = new TestData("banana", "a", 3);
-        arr[3] = new TestData("ctgtatgta", "atgx", 0);
-        arr[4] = new TestData("abcxx", "abc", 1);
+        int n = 8;
+        TestData[] arr = new TestData[n];
+        arr[--n] = new TestData("a1a2a3a4", "a", 4);
+        arr[--n] = new TestData("A story by Abby Long", "by", 2);
+        arr[--n] = new TestData("banana", "a", 3);
+        arr[--n] = new TestData("ctgtatgta", "atgx", 0);
+        arr[--n] = new TestData("abcxx", "abc", 1);
+        arr[--n] = new TestData("aaaaaa", "a", 6);
+        arr[--n] = new TestData("aaaaaa", "aa", 3);
+        arr[--n] = new TestData("aaaaaa", "aaa", 2);
         for (int i = 0; i < arr.length; i++){
             String a = arr[i].stringA;
             String b = arr[i].stringB;
