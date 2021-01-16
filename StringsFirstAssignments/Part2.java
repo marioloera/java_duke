@@ -7,9 +7,9 @@ import java.util.HashMap;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Part1 {
+public class Part2 {
 
-    public String findSimpleGene(String dna){
+    public String findSimpleGene(String dna, String startCodon, String stopCodon){
         /*
         Write the method findSimpleGene that has one String parameter dna,
         representing a string of DNA.
@@ -27,8 +27,6 @@ public class Part1 {
             is a multiple of 3, then return the substring that starts with
             that “ATG” and ends with that “TAA”.
         */
-        String startCodon = "ATG";
-        String stopCodon = "TAA";
 
         int startIndex = dna.indexOf(startCodon);
         if (startIndex == -1){
@@ -66,10 +64,12 @@ public class Part1 {
         String msg;
         String okMsg;
         String notOkMsg;
+        String startCodon = "ATG";
+        String stopCodon = "TAA";
         // Print keys
         for (String key : examples.keySet()) {
             value = examples.get(key);
-            gen = findSimpleGene(key);
+            gen = findSimpleGene(key, startCodon, stopCodon);
             okMsg = "ok " + key + ": " + gen;
             notOkMsg = "error! for:" + key + " expected:" + value + " got:" + gen;
             msg = (gen.equals(value)) ? okMsg : notOkMsg;
@@ -83,7 +83,7 @@ public class Part1 {
     }
 
     public static void main (String[] args) {
-        Part1 c = new Part1();
+        Part2 c = new Part2();
         c.test();
     }
 }
