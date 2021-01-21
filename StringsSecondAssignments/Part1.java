@@ -22,7 +22,7 @@ class TestData {
         this.startIndex = startIndex;
         this.expResult = expResult;
         this.msg = String.format(
-            "expResult:%4$s, dna:%1$s, stopCodon:%2$s, stratIndex:%3$s",
+            "expResult:%4$s, dna:%1$s, stopCodon:%2$s, startIndex:%3$s",
             dna, stopCodon, startIndex, expResult
             );
     }
@@ -30,6 +30,7 @@ class TestData {
 }
 
 public class Part1 {
+
     public String findSimpleGene(String dnaI, String startCodonI, String stopCodonI){
         /** doc string in java
             Write the method findSimpleGene that has one String parameter dna,
@@ -94,8 +95,7 @@ public class Part1 {
         If there is no such stopCodon,
         this method returns the length of the dna strand
          */
-
-        int stopIndex = dna.indexOf(stopCodon, startIndex + 3);
+        int stopIndex = dna.indexOf(stopCodon, startIndex);
         int notFound = dna.length();
         if (stopIndex == -1){
             return notFound;
@@ -104,7 +104,6 @@ public class Part1 {
         if ((stopIndex - startIndex) % 3 != 0){
             return notFound;
         }
-        stopIndex += stopCodon.length();
         return stopIndex;
     }
 
@@ -156,12 +155,15 @@ public class Part1 {
         // TestData(int expResult, int startIndex, String stopCodon, String dna)
         rows.put(i++, new TestData(3, 0, "xxx", "012xxx"));
         rows.put(i++, new TestData(3, 0, "xxx", "012xxxxxx"));
+        rows.put(i++, new TestData(5, 0, "a", "12345"));
+        rows.put(i++, new TestData(6, 0, "x", "_234x6"));
+        rows.put(i++, new TestData(6, 0, "x", "0x2345x55885")); // error find sendo entry
 
         for (int key : rows.keySet()) {
             TestData r = rows.get(key);
-            String check = "Ok";
-            // int findStopCodon( dna, startIndex, stopCodon)
-            //int r = findStopCodon(r.dna, r.startIndex, r.stopCodon);
+            // findStopCodon( dna, startIndex, stopCodon)
+            int x = findStopCodon(r.dna, r.startIndex, r.stopCodon);
+            String check = (x == r.expResult) ? "ok" : "error got: " + x;
             String msg = String.format("%1$s: %2$s: %3$s", key, check, r.msg);
             System.out.println(msg);
             // gen = findSimpleGene(key, startCodon, stopCodon);
