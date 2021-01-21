@@ -95,16 +95,16 @@ public class Part1 {
         If there is no such stopCodon,
         this method returns the length of the dna strand
          */
-        int stopIndex = dna.indexOf(stopCodon, startIndex);
+        int currIndex = dna.indexOf(stopCodon, startIndex);
         int notFound = dna.length();
-        if (stopIndex == -1){
+        if (currIndex == -1){
             return notFound;
         }
 
-        if ((stopIndex - startIndex) % 3 != 0){
+        if ((currIndex - startIndex) % 3 != 0){
             return notFound;
         }
-        return stopIndex;
+        return currIndex;
     }
 
     public void testFindSimpleGene(){
