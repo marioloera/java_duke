@@ -166,11 +166,6 @@ public class Part1 {
             String check = (x == r.expResult) ? "ok" : "error got: " + x;
             String msg = String.format("%1$s: %2$s: %3$s", key, check, r.msg);
             System.out.println(msg);
-            // gen = findSimpleGene(key, startCodon, stopCodon);
-            // okMsg = "ok " + key + ": " + gen;
-            // notOkMsg = "error! for:" + key + " expected:" + value + " got:" + gen;
-            // msg = (gen.equals(value)) ? okMsg : notOkMsg;
-            // System.out.println(msg);
             }
         }
 
