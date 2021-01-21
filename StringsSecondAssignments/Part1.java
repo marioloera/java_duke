@@ -1,11 +1,34 @@
 import java.io.File;
 import java.util.HashMap;
+import java.util.*;
 /**
  * Write a description of Part1 here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
+
+class TestData {
+
+    public String dna;
+    public String stopCodon;
+    public int expResult;
+    public int startIndex;
+    public String msg;
+
+    TestData(int expResult, int startIndex, String stopCodon, String dna){
+        this.dna = dna;
+        this.stopCodon = stopCodon;
+        this.startIndex = startIndex;
+        this.expResult = expResult;
+        this.msg = String.format(
+            "expResult:%4$s, dna:%1$s, stopCodon:%2$s, stratIndex:%3$s",
+            dna, stopCodon, startIndex, expResult
+            );
+    }
+
+}
+
 public class Part1 {
     public String findSimpleGene(String dnaI, String startCodonI, String stopCodonI){
         /** doc string in java
@@ -56,6 +79,33 @@ public class Part1 {
 
         String gen = dnaI.substring(startIndex, stopIndex);
         return gen;
+        }
+
+    public int findStopCodon(String dna, int startIndex, String stopCodon){
+        /**  findStopCodon that has three parameters,
+            * a String parameter named dna,
+            an integer parameter named startIndex that represents
+                where the first occurrence of ATG occurs in dna,
+            a String parameter named stopCodon.
+        This method returns the index of the first occurrence of stopCodon
+            that appears past startIndex
+            and is a multiple of 3 away from startIndex.
+        
+        If there is no such stopCodon,
+        this method returns the length of the dna strand
+         */
+
+        int stopIndex = dna.indexOf(stopCodon, startIndex + 3);
+        int notFound = dna.length();
+        if (stopIndex == -1){
+            return notFound;
+        }
+
+        if ((stopIndex - startIndex) % 3 != 0){
+            return notFound;
+        }
+        stopIndex += stopCodon.length();
+        return stopIndex;
     }
 
     public void testFindSimpleGene(){
@@ -92,16 +142,43 @@ public class Part1 {
             notOkMsg = "error! for:" + key + " expected:" + value + " got:" + gen;
             msg = (gen.equals(value)) ? okMsg : notOkMsg;
             System.out.println(msg);
+            }
         }
-        
-    }
+
+    public void testFindStopCodon(){
+        /**
+            doc string in java
+        */
+        System.out.println("Start testFindStopCodon  ");
+
+        HashMap<Integer, TestData> rows = new HashMap<Integer, TestData>();
+        int i = 1;
+        // TestData(int expResult, int startIndex, String stopCodon, String dna)
+        rows.put(i++, new TestData(3, 0, "xxx", "012xxx"));
+        rows.put(i++, new TestData(3, 0, "xxx", "012xxxxxx"));
+
+        for (int key : rows.keySet()) {
+            TestData r = rows.get(key);
+            String check = "Ok";
+            // int findStopCodon( dna, startIndex, stopCodon)
+            //int r = findStopCodon(r.dna, r.startIndex, r.stopCodon);
+            String msg = String.format("%1$s: %2$s: %3$s", key, check, r.msg);
+            System.out.println(msg);
+            // gen = findSimpleGene(key, startCodon, stopCodon);
+            // okMsg = "ok " + key + ": " + gen;
+            // notOkMsg = "error! for:" + key + " expected:" + value + " got:" + gen;
+            // msg = (gen.equals(value)) ? okMsg : notOkMsg;
+            // System.out.println(msg);
+            }
+        }
 
     public void test() {
-        testFindSimpleGene();
-    }
+        // testFindSimpleGene();
+        testFindStopCodon();
+        }
 
     public static void main (String[] args) {
         Part1 c = new Part1();
         c.test();
-    }
+        }
 }
