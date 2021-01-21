@@ -88,24 +88,27 @@ public class Part1 {
             an integer parameter named startIndex that represents
                 where the first occurrence of ATG occurs in dna,
             a String parameter named stopCodon.
-        This method returns the index of the first occurrence of stopCodon
-            that appears past startIndex
-            and is a multiple of 3 away from startIndex.
+            This method returns the index of the first occurrence of stopCodon
+                that appears past startIndex
+                and is a multiple of 3 away from startIndex.
         
-        If there is no such stopCodon,
-        this method returns the length of the dna strand
+            If there is no such stopCodon,
+            this method returns the length of the dna strand
          */
-        int currIndex = dna.indexOf(stopCodon, startIndex);
         int notFound = dna.length();
-        if (currIndex == -1){
-            return notFound;
+        int currIndex = startIndex;
+        while (currIndex < dna.length()){
+            currIndex = dna.indexOf(stopCodon, currIndex);
+            if (currIndex == -1){
+                break;
+            }
+            if ((currIndex - startIndex) % 3 == 0){
+                return currIndex;
+            }
+            currIndex += 1;
         }
-
-        if ((currIndex - startIndex) % 3 != 0){
-            return notFound;
+        return notFound;
         }
-        return currIndex;
-    }
 
     public void testFindSimpleGene(){
         /**
@@ -157,7 +160,14 @@ public class Part1 {
         rows.put(i++, new TestData(3, 0, "xxx", "012xxxxxx"));
         rows.put(i++, new TestData(5, 0, "a", "12345"));
         rows.put(i++, new TestData(6, 0, "x", "_234x6"));
-        rows.put(i++, new TestData(6, 0, "x", "0x2345x55885")); // error find sendo entry
+        rows.put(i++, new TestData(6, 0, "x", "0x2345x55885"));
+        rows.put(i++, new TestData(9, 0, "x", "0123456x8x0"));
+        rows.put(i++, new TestData(0, 0, "x", "xxxx"));
+        rows.put(i++, new TestData(3, 0, "x", "_xxx"));
+        rows.put(i++, new TestData(3, 0, "x", "_xxx567"));
+        rows.put(i++, new TestData(3, 0, "x", "_xxxx67"));
+        rows.put(i++, new TestData(9, 3, "xxx", "012345648xxx")); //
+        rows.put(i++, new TestData(9, 3, "xxx", "0123xxx01xxx"));
 
         for (int key : rows.keySet()) {
             TestData r = rows.get(key);
