@@ -261,10 +261,49 @@ public class Part1 {
             }
         }
 
+    public void printAllGenes() {
+        System.out.println("Print all gens");
+        HashMap<Integer, String> expResults = new HashMap<Integer, String>();
+        HashMap<Integer, String> gens = new HashMap<Integer, String>();
+        int i = 1;
+        String dna = "11f551atg123taa_ATG123TAGx12asdATG1TAGTGA12xxxTAGccc456TAA";
+        expResults.put(i++, "atg123taa");
+        expResults.put(i++, "ATG123TAG");
+        expResults.put(i++, "ATG1TAGTGA12xxxTAG");
+
+        i = 1;
+        while (true){
+            String gen = findGene(dna);
+            if (gen.equals("")){
+                break;
+            }
+            System.out.println(i + ": " + gen);
+            gens.put(i++, gen);
+            int startIndex = dna.indexOf(gen) + gen.length();
+            dna = dna.substring(startIndex);
+        }
+
+        System.out.println("Test");
+        for (int key : expResults.keySet()) {
+            String expResult = expResults.get(key);
+            String gen = gens.getOrDefault(key, " no gens");
+            String msg = key + " ";
+            if (expResult.equals(gen)){
+                msg = "gen ok: " + gen;
+            }
+            else {
+                msg = "gen not ok:" + gen + " expected:" + expResult;
+            }
+            System.out.println(msg);
+        }
+
+    }
+
     public void test() {
         // testFindSimpleGene();
-        testFindStopCodon();
-        testFindGen();
+        // testFindStopCodon();
+        // testFindGen();
+        printAllGenes();
         }
 
     public static void main (String[] args) {
