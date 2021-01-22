@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.HashMap;
 import java.util.*;
+import java.lang.Math.*;
 /**
  * Write a description of Part1 here.
  * 
@@ -26,7 +27,6 @@ class TestData {
             dna, stopCodon, startIndex, expResult
             );
     }
-
 }
 
 public class Part1 {
@@ -108,6 +108,49 @@ public class Part1 {
             currIndex += 1;
         }
         return notFound;
+        }
+
+    public String findGene(String dnaI){
+        /** 5. Write the method findGene that has one String parameter dna,
+            representing a string of DNA. 
+            In this method you should do the following:
+
+            Find the index of the first occurrence of the start codon “ATG”.
+            If there is no “ATG”, return the empty string.
+
+            Find the index of the first occurrence of the stop codon “TAA” 
+            after the first occurrence of “ATG”
+            that is a multiple of three away from the “ATG”.
+
+            Find the index of the first occurrence of the stop codon “TAG”
+            after the first occurrence of “ATG”
+            that is a multiple of three away from the “ATG”.
+            
+            Find the index of the first occurrence of the stop codon “TGA”
+            after the first occurrence of “ATG”
+            that is a multiple of three away from the “ATG”.
+
+            Return the gene formed from the “ATG” and the closest stop codon 
+            that is a multiple of three away.
+            If there is no valid stop codon and therefore no gene,
+            return the empty string.
+            */
+        String dna = dnaI.toUpperCase();
+        String notGen = "";
+
+        int startIndex = dna.indexOf("ATG");
+        if (startIndex == -1){
+            return notGen;
+        }
+
+        int TAA = findStopCodon(dna, startIndex ,"TAA");
+        int TAG = findStopCodon(dna, startIndex ,"TAG");
+        int TGA = findStopCodon(dna, startIndex ,"TGA");
+        
+        //int stopIndex = Math.min(Math.min(TAA, TAG), TGA);
+        int stopIndex = Math.min(Math.min(TAA, TAG), TGA);
+
+        return dnaI.substring(startIndex, stopIndex + 3);
         }
 
     public void testFindSimpleGene(){
