@@ -12,20 +12,25 @@ import java.lang.Math.*;
 class TestData {
 
     public String dna;
-    public String stopCodon;
+    public String stringX;
     public int expResult;
     public int startIndex;
     public String msg;
+    public String genData;
 
-    TestData(int expResult, int startIndex, String stopCodon, String dna){
+    TestData(int expResult, int startIndex, String stringX, String dna){
         this.dna = dna;
-        this.stopCodon = stopCodon;
+        this.stringX = stringX;
         this.startIndex = startIndex;
         this.expResult = expResult;
         this.msg = String.format(
             "expResult:%4$s, dna:%1$s, stopCodon:%2$s, startIndex:%3$s",
-            dna, stopCodon, startIndex, expResult
+            dna, stringX, startIndex, expResult
             );
+        this.genData = String.format(
+                "expResult:%1$s, dna:%2$s",
+                stringX, dna
+                );
     }
 }
 
@@ -149,7 +154,9 @@ public class Part1 {
         
         //int stopIndex = Math.min(Math.min(TAA, TAG), TGA);
         int stopIndex = Math.min(Math.min(TAA, TAG), TGA);
-
+        if (stopIndex == dna.length()){
+            return notGen;
+            }
         return dnaI.substring(startIndex, stopIndex + 3);
         }
 
@@ -215,9 +222,41 @@ public class Part1 {
         for (int key : rows.keySet()) {
             TestData r = rows.get(key);
             // findStopCodon( dna, startIndex, stopCodon)
-            int x = findStopCodon(r.dna, r.startIndex, r.stopCodon);
+            int x = findStopCodon(r.dna, r.startIndex, r.stringX);
             String check = (x == r.expResult) ? "ok" : "error got: " + x;
             String msg = String.format("%1$s: %2$s: %3$s", key, check, r.msg);
+            System.out.println(msg);
+            }
+        }
+
+    public void testFindGen(){
+        /**
+         * TestData(int x, int x, String stringX~gen, String dna)
+         * start codon "ATG"
+         * stop codons: "TAA", "TGA", "TAG"
+        */
+        System.out.println("Start testFindGen  ");
+
+        HashMap<Integer, TestData> rows = new HashMap<Integer, TestData>();
+        int i = 1;
+        rows.put(i++, new TestData(0, 0, "atg123taa", "atg123taa"));
+        rows.put(i++, new TestData(0, 0, "atg123tga", "atg123tga"));
+        rows.put(i++, new TestData(0, 0, "atg123tag", "atg123tag"));
+        rows.put(i++, new TestData(0, 0, "ATG123TAA", "ATG123TAA"));
+        rows.put(i++, new TestData(0, 0, "ATG123TGA", "ATG123TGA"));
+        rows.put(i++, new TestData(0, 0, "ATG123TAG", "ATG123TAG"));
+        rows.put(i++, new TestData(0, 0, "ATG1TAGTGA12xxxTAG", "12asdATG1TAGTGA12xxxTAGccc456TAA"));
+        rows.put(i++, new TestData(0, 0, "", "12asdAXG1TAGTGA12xxxTAGccc456TAA"));
+        rows.put(i++, new TestData(0, 0, "", "ATG123xAA"));
+        rows.put(i++, new TestData(0, 0, "", "454"));
+        rows.put(i++, new TestData(0, 0, "", ""));
+
+        for (int key : rows.keySet()) {
+            TestData r = rows.get(key);
+            // findGene(String dnaI)
+            String gen = findGene(r.dna);
+            String check = (gen.equals(r.stringX)) ? "ok" : "error got: " + gen;
+            String msg = String.format("%1$s: %2$s: %3$s", key, check, r.genData);
             System.out.println(msg);
             }
         }
@@ -225,6 +264,7 @@ public class Part1 {
     public void test() {
         // testFindSimpleGene();
         testFindStopCodon();
+        testFindGen();
         }
 
     public static void main (String[] args) {
