@@ -246,11 +246,23 @@ public class Part1 {
         System.out.println(msg);
     }
 
+    public int countCTG (String dna){
+        dna = dna.toUpperCase();
+        return nOccurrences("CTG", dna);
+    }
+
+    public void testCountCTG(){
+        int result = countCTG("CTGATGCCATAGCTG");
+        String msg = (2 == result)? "countCTG ok" : "error";
+        System.out.println(msg);
+    }
+
     public void test() {
         //testFindStopCodon();
         //testFindGen();
         printAllGenes();
         testCgRatio();
+        testCountCTG();
     }
 
     public static void main (String[] args) {
