@@ -173,6 +173,20 @@ public class Part1 {
             }
         }
 
+    public ArrayList<String> getAllGenes(String dna) {
+        ArrayList<String> gens = new ArrayList<String>();
+        while (true){
+            String gen = findGene(dna);
+            if (gen.equals("")){
+                break;
+            }
+            gens.add(gen);
+            int startIndex = dna.indexOf(gen) + gen.length();
+            dna = dna.substring(startIndex);
+        }
+        return gens;
+    }
+
     public void printAllGenes() {
         System.out.println("Print all gens");
         HashMap<Integer, String> expResults = new HashMap<Integer, String>();
@@ -182,17 +196,12 @@ public class Part1 {
         expResults.put(i++, "atg123taa");
         expResults.put(i++, "ATG123TAG");
         expResults.put(i++, "ATG1TAGTGA12xxxTAG");
-
-        i = 1;
-        while (true){
-            String gen = findGene(dna);
-            if (gen.equals("")){
-                break;
-            }
-            System.out.println(i + ": " + gen);
+        // extrat method
+        ArrayList<String> gensList = getAllGenes(dna);
+        // save data in HashMap, easier to test
+        i=1;
+        for (String gen : gensList) {
             gens.put(i++, gen);
-            int startIndex = dna.indexOf(gen) + gen.length();
-            dna = dna.substring(startIndex);
         }
 
         System.out.println("Test");
@@ -208,12 +217,11 @@ public class Part1 {
             }
             System.out.println(msg);
         }
-
-        }
+    }
 
     public void test() {
-        testFindStopCodon();
-        testFindGen();
+        //testFindStopCodon();
+        //testFindGen();
         printAllGenes();
         }
 
