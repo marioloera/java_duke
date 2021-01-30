@@ -36,7 +36,7 @@ class TestData {
 
 public class Part1 {
 
-    public int findStopCodon(String dna, int startIndex, String stopCodon){
+    public int findStopCodon(String dna, int startIndex, String stopCodon) {
         /**  findStopCodon that has three parameters,
             * a String parameter named dna,
             an integer parameter named startIndex that represents
@@ -62,9 +62,9 @@ public class Part1 {
             currIndex += 1;
         }
         return notFound;
-        }
+    }
 
-    public String findGene(String dnaI){
+    public String findGene(String dnaI) {
         /** 5. Write the method findGene that has one String parameter dna,
             representing a string of DNA. 
             In this method you should do the following:
@@ -107,9 +107,9 @@ public class Part1 {
             return notGen;
             }
         return dnaI.substring(startIndex, stopIndex + 3);
-        }
+    }
 
-    public void testFindStopCodon(){
+    public void testFindStopCodon() {
         /**
             doc string in java
         */
@@ -139,9 +139,9 @@ public class Part1 {
             String msg = String.format("%1$s: %2$s: %3$s", key, check, r.msg);
             System.out.println(msg);
             }
-        }
+    }
 
-    public void testFindGen(){
+    public void testFindGen() {
         /**
          * TestData(int x, int x, String stringX~gen, String dna)
          * start codon "ATG"
@@ -171,7 +171,7 @@ public class Part1 {
             String msg = String.format("%1$s: %2$s: %3$s", key, check, r.genData);
             System.out.println(msg);
             }
-        }
+    }
 
     public ArrayList<String> getAllGenes(String dna) {
         ArrayList<String> gens = new ArrayList<String>();
@@ -219,7 +219,7 @@ public class Part1 {
         }
     }
 
-    public int nOccurrences(String stringA, String stringB){
+    public int nOccurrences(String stringA, String stringB) {
 
         int n = 0;
         int indexA = 0;
@@ -235,23 +235,23 @@ public class Part1 {
         return n;
     }
 
-    public float cgRatio (String dna){
+    public float cgRatio(String dna) {
         dna = dna.toLowerCase();
         return (float)(nOccurrences("c", dna) + nOccurrences("g", dna)) / dna.length();
     }
 
-    public void testCgRatio (){
+    public void testCgRatio() {
         float result = cgRatio("ATGCCATAG");
         String msg = ((float)4/9 == result)? "cgRatio ok" : "error";
         System.out.println(msg);
     }
 
-    public int countCTG (String dna){
+    public int countCTG(String dna) {
         dna = dna.toUpperCase();
         return nOccurrences("CTG", dna);
     }
 
-    public void testCountCTG(){
+    public void testCountCTG() {
         int result = countCTG("CTGATGCCATAGCTG");
         String msg = (2 == result)? "countCTG ok" : "error";
         System.out.println(msg);
@@ -265,8 +265,8 @@ public class Part1 {
         testCountCTG();
     }
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         Part1 c = new Part1();
         c.test();
-        }
+    }
 }
