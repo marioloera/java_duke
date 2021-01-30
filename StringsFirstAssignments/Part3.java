@@ -1,4 +1,4 @@
-import edu.duke.*;
+//import edu.duke.*;
 import java.io.File;
 import java.util.HashMap;
 /**
@@ -107,25 +107,29 @@ public class Part3 {
             doc string in java
         */
         System.out.println("Start testnOccurrences!");
-        int n = 8;
-        TestData[] arr = new TestData[n];
-        arr[--n] = new TestData("a1a2a3a4", "a", 4);
-        arr[--n] = new TestData("A story by Abby Long", "by", 2);
-        arr[--n] = new TestData("banana", "a", 3);
-        arr[--n] = new TestData("ctgtatgta", "atgx", 0);
-        arr[--n] = new TestData("abcxx", "abc", 1);
-        arr[--n] = new TestData("aaaaaa", "a", 6);
-        arr[--n] = new TestData("aaaaaa", "aa", 3);
-        arr[--n] = new TestData("aaaaaa", "aaa", 2);
-        for (int i = 0; i < arr.length; i++){
-            String a = arr[i].stringA;
-            String b = arr[i].stringB;
-            int exp = arr[i].n;
+        HashMap<Integer, TestData> rows = new HashMap<Integer, TestData>();
+        int n = 0;
+        rows.put(n++, new TestData("a1a2a3a4", "a", 4));
+        rows.put(n++, new TestData("A story by Abby Long", "by", 2));
+        rows.put(n++, new TestData("banana", "a", 3));
+        rows.put(n++, new TestData("ctgtatgta", "atgx", 0));
+        rows.put(n++, new TestData("abcxx", "abc", 1));
+        rows.put(n++, new TestData("aaaaaa", "a", 6));
+        rows.put(n++, new TestData("aaaaaa", "aa", 3));
+        rows.put(n++, new TestData("aaaaaa", "aaa", 2));
+        rows.put(n++, new TestData("12å23å___xxå", "å", 3));
+
+        for (int i = 0; i < rows.size(); i++){
+        //for (int i : rows.keySet()) {
+            TestData d = rows.get(i);
+            String a = d.stringA;
+            String b = d.stringB;
+            int exp = d.n;
             int r = nOccurrences(a, b);
             String msgOk = "ok a:" + a + " b:" + b + " r:" +  r;
             String error = "error a:" + a + " b:" + b + " exp:" + exp + " r:" +  r;
             String msg = (exp == r) ? msgOk : error;
-            System.out.println(msg);
+            System.out.println(i + ": " + msg);
         }
     }
 

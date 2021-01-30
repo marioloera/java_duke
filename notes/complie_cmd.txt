@@ -1,0 +1,11 @@
+make sure this works:
+ javac -version
+
+or C:\Program Files\Java\jdkxxxxx\bin
+ has a javac.exe
+ add the path to your environment variables
+
+javac Part1.java -encoding "utf-8"
+
+run :
+java Part1
