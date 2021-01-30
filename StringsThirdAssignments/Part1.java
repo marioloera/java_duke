@@ -219,11 +219,39 @@ public class Part1 {
         }
     }
 
+    public int nOccurrences(String stringA, String stringB){
+
+        int n = 0;
+        int indexA = 0;
+
+        while (indexA < stringB.length()){
+            indexA = stringB.indexOf(stringA, indexA);
+            if (indexA == -1){
+                break;
+            }
+            indexA += stringA.length();
+            n += 1;
+        }
+        return n;
+    }
+
+    public float cgRatio (String dna){
+        dna = dna.toLowerCase();
+        return (float)(nOccurrences("c", dna) + nOccurrences("g", dna)) / dna.length();
+    }
+
+    public void testCgRatio (){
+        float result = cgRatio("ATGCCATAG");
+        String msg = ((float)4/9 == result)? "cgRatio ok" : "error";
+        System.out.println(msg);
+    }
+
     public void test() {
         //testFindStopCodon();
         //testFindGen();
         printAllGenes();
-        }
+        testCgRatio();
+    }
 
     public static void main (String[] args) {
         Part1 c = new Part1();
