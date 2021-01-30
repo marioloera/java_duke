@@ -187,6 +187,29 @@ public class Part1 {
         return gens;
     }
 
+    public void processGenes(ArrayList<String> gens){
+        int longGens = 0;
+        int longestGenLength = 0;
+        int highGCratioGens = 0;
+        for (String gen : gens) {
+
+            if (gen.length() >= 9){
+                longGens++;
+                longestGenLength = Math.max(longestGenLength, gen.length());
+                System.out.println("long gen:" + gen);
+            }
+            
+            if (cgRatio(gen) > 0.35){
+                highGCratioGens++;
+                System.out.println("High cgRatio:" + gen);
+            }
+
+        }
+        System.out.println("total long gens:" + longGens);
+        System.out.println("longest gen lengh:" + longestGenLength);
+        System.out.println("total high cgRatio gens:" + highGCratioGens);
+    }
+
     public void printAllGenes() {
         System.out.println("Print all gens");
         HashMap<Integer, String> expResults = new HashMap<Integer, String>();
