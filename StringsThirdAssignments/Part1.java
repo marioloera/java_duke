@@ -194,7 +194,7 @@ public class Part1 {
         int highGCratioGens = 0;
         for (String gen : gens) {
 
-            if (gen.length() >= 9){
+            if (gen.length() > 60){
                 longGens++;
                 longestGenLength = Math.max(longestGenLength, gen.length());
                 //System.out.println("long gen:" + gen);
@@ -221,7 +221,8 @@ public class Part1 {
     
     public void testPprocessGenes() {
         System.out.println("testProcessGenes:");
-        FileResource fr = new FileResource("brca1line.fa");
+        //FileResource fr = new FileResource("brca1line.fa");
+        FileResource fr = new FileResource("quiz_q3.fa");
         String dna = fr.asString();
         System.out.println("dna raw string:");
         System.out.println(dna);
@@ -229,6 +230,7 @@ public class Part1 {
         System.out.println("gens found: " + gens.size());
         System.out.println("ProcessGenes :");
         processGenes(gens);
+        System.out.println("GCT appers in dna: " + countCTG(dna));
     }
 
     public void printAllGenes() {
