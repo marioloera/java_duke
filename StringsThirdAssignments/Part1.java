@@ -2,6 +2,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.*;
 import java.lang.Math.*;
+import edu.duke.*;
 /**
  * Write a description of Part1 here.
  * 
@@ -187,7 +188,7 @@ public class Part1 {
         return gens;
     }
 
-    public void processGenes(ArrayList<String> gens){
+    public void processGenes(ArrayList<String> gens) {
         int longGens = 0;
         int longestGenLength = 0;
         int highGCratioGens = 0;
@@ -196,18 +197,38 @@ public class Part1 {
             if (gen.length() >= 9){
                 longGens++;
                 longestGenLength = Math.max(longestGenLength, gen.length());
-                System.out.println("long gen:" + gen);
+                //System.out.println("long gen:" + gen);
             }
             
             if (cgRatio(gen) > 0.35){
                 highGCratioGens++;
-                System.out.println("High cgRatio:" + gen);
+                //System.out.println("High cgRatio:" + gen);
             }
 
         }
         System.out.println("total long gens:" + longGens);
         System.out.println("longest gen lengh:" + longestGenLength);
         System.out.println("total high cgRatio gens:" + highGCratioGens);
+    }
+
+    public void processGenesSr(StorageResource sr) {
+        ArrayList<String> gens = new ArrayList<String>();
+        for (String s: sr.data()) {
+            gens.add(s);
+        }
+        processGenes(gens);
+    }
+    
+    public void testPprocessGenes() {
+        System.out.println("testProcessGenes:");
+        FileResource fr = new FileResource("brca1line.fa");
+        String dna = fr.asString();
+        System.out.println("dna raw string:");
+        System.out.println(dna);
+        ArrayList<String> gens = getAllGenes(dna);
+        System.out.println("gens found: " + gens.size());
+        System.out.println("ProcessGenes :");
+        processGenes(gens);
     }
 
     public void printAllGenes() {
@@ -221,6 +242,7 @@ public class Part1 {
         expResults.put(i++, "ATG1TAGTGA12xxxTAG");
         // extrat method
         ArrayList<String> gensList = getAllGenes(dna);
+        System.out.println("gens found" + gensList.size());
         // save data in HashMap, easier to test
         i=1;
         for (String gen : gensList) {
@@ -283,9 +305,10 @@ public class Part1 {
     public void test() {
         //testFindStopCodon();
         //testFindGen();
-        printAllGenes();
-        testCgRatio();
-        testCountCTG();
+        //printAllGenes();
+        //testCgRatio();
+        //testCountCTG();
+        testPprocessGenes();
     }
 
     public static void main(String[] args) {
