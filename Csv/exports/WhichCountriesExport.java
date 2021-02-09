@@ -26,4 +26,14 @@ public class WhichCountriesExport {
         CSVParser parser = fr.getCSVParser();
         listExporters(parser, "coffee");
     }
+
+    public void test() {
+        whoExportsCoffee();
+    }
+
+    public static void main(String[] args) {
+        WhichCountriesExport c = new WhichCountriesExport();
+        c.test();
+    }
+
 }
