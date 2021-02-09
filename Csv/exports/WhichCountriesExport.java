@@ -12,7 +12,8 @@ public class WhichCountriesExport {
         listExporters(parser, exportOfInterest, exportOfInterest);
     }
 
-    public void listExporters(CSVParser parser, String exportItem1, String exportItem2) {
+    public ArrayList<String> listExporters(CSVParser parser, String exportItem1, String exportItem2) {
+        ArrayList<String> list = new ArrayList<String>();
         //for each row in the CSV File
         for (CSVRecord record : parser) {
             //Look at the "Exports" column
@@ -20,9 +21,16 @@ public class WhichCountriesExport {
             //Check if it contains exportOfInterest
             if (export.contains(exportItem1) && export.contains(exportItem2)) {
                 //If so, write down the "Country" from that row
-                String country = record.get("Country");
-                System.out.println(country);
+                list.add(record.get("Country"));
             }
+        }
+        return list;
+    }
+
+    public void PrintExporters(CSVParser parser, String exportItem1, String exportItem2){
+        ArrayList<String> list = listExporters(parser, exportItem1, exportItem2);
+        for (String record : list) {
+            System.out.println(record);
         }
     }
 
@@ -57,10 +65,10 @@ public class WhichCountriesExport {
         CSVParser parser;
         parser = fr.getCSVParser();
         System.out.println("whoExports gold & diamonds");
-        listExporters(parser, "gold", "diamonds");
+        PrintExporters(parser, "gold", "diamonds");
         parser = fr.getCSVParser();
         System.out.println("whoExports coffee & vanilla");
-        listExporters(parser, "coffee", "vanilla");
+        PrintExporters(parser, "coffee", "vanilla");
     }
 
     public void testCountryInfo() {
