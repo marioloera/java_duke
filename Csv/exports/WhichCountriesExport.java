@@ -8,8 +8,8 @@ import org.apache.commons.csv.*;
 import java.util.*;
 
 public class WhichCountriesExport {
-    public void listExporters(CSVParser parser, String exportOfInterest) {
-        listExporters(parser, exportOfInterest, exportOfInterest);
+    public ArrayList<String> listExporters(CSVParser parser, String exportOfInterest) {
+        return listExporters(parser, exportOfInterest, exportOfInterest);
     }
 
     public ArrayList<String> listExporters(CSVParser parser, String exportItem1, String exportItem2) {
@@ -32,6 +32,15 @@ public class WhichCountriesExport {
         for (String record : list) {
             System.out.println(record);
         }
+    }
+    
+    public void PrintExporters(CSVParser parser, String exportItem1){
+        /*ArrayList<String> list = listExporters(parser, exportItem1);
+        for (String record : list) {
+            System.out.println(record);
+        }
+        */
+        PrintExporters(parser, exportItem1, exportItem1);
     }
 
     public void countryInfo (CSVParser parser, String country) {
@@ -56,7 +65,7 @@ public class WhichCountriesExport {
         System.out.println("test whoExportsCoffee");
         FileResource fr = new FileResource();
         CSVParser parser = fr.getCSVParser();
-        listExporters(parser, "coffee");
+        PrintExporters(parser, "coffee");
     }
 
     public void testListExporters() {
