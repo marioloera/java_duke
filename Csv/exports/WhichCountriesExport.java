@@ -65,16 +65,14 @@ public class WhichCountriesExport {
         System.out.println(country + ": NOT FOUND");
     }
 
-    public void whoExportsCoffee() {
-        System.out.println("test whoExportsCoffee");
-        FileResource fr = new FileResource();
+    public void whoExportsCoffee(FileResource fr) {
+        System.out.println("\ntest whoExportsCoffee");
         CSVParser parser = fr.getCSVParser();
         PrintExporters(parser, "coffee");
     }
 
-    public void testListExporters() {
-        System.out.println("test listExporters");
-        FileResource fr = new FileResource();
+    public void testListExporters(FileResource fr) {
+        System.out.println("\ntest listExporters two itemes");
         CSVParser parser;
         parser = fr.getCSVParser();
         System.out.println("whoExports gold & diamonds");
@@ -84,9 +82,8 @@ public class WhichCountriesExport {
         PrintExporters(parser, "coffee", "vanilla");
     }
 
-    public void testCountryInfo() {
-        System.out.println("test testCountryInfo");
-        FileResource fr = new FileResource();
+    public void testCountryInfo(FileResource fr) {
+        System.out.println("\ntest testCountryInfo");
         CSVParser parser;
         parser = fr.getCSVParser();
         countryInfo(parser, "Germany");
@@ -94,9 +91,9 @@ public class WhichCountriesExport {
         countryInfo(parser, "Malawi");
     }
 
-    public void testNumberOfExporters(){
-        System.out.println("test testNumberOfExporters");
-        FileResource fr = new FileResource();
+    public void testNumberOfExporters(FileResource fr){
+        System.out.println("\ntest testNumberOfExporters");
+        
         CSVParser parser;
         int n;
         String item;
@@ -118,10 +115,11 @@ public class WhichCountriesExport {
     }
 
     public void test() {
-        whoExportsCoffee();
-        testCountryInfo();
-        testListExporters();
-        testNumberOfExporters();
+        FileResource fr = new FileResource();
+        whoExportsCoffee(fr);
+        testCountryInfo(fr);
+        testListExporters(fr);
+        testNumberOfExporters(fr);
     }
 
     public static void main(String[] args) {
