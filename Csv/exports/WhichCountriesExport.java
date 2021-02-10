@@ -27,6 +27,10 @@ public class WhichCountriesExport {
         return list;
     }
 
+    public int numberOfExporters(CSVParser parser, String exportItem1) {
+        return listExporters(parser, exportItem1, exportItem1).size();
+    }
+
     public void PrintExporters(CSVParser parser, String exportItem1, String exportItem2){
         ArrayList<String> list = listExporters(parser, exportItem1, exportItem2);
         for (String record : list) {
@@ -90,10 +94,34 @@ public class WhichCountriesExport {
         countryInfo(parser, "Malawi");
     }
 
+    public void testNumberOfExporters(){
+        System.out.println("test testNumberOfExporters");
+        FileResource fr = new FileResource();
+        CSVParser parser;
+        int n;
+        String item;
+
+        item = "coffee";
+        parser = fr.getCSVParser();
+        n = numberOfExporters(parser, item);
+        System.out.println(n + " exporters of " + item);
+
+        item = "tea";
+        parser = fr.getCSVParser();
+        n = numberOfExporters(parser, item);
+        System.out.println(n + " exporters of " + item);
+
+        item = "drugs";
+        parser = fr.getCSVParser();
+        n = numberOfExporters(parser, item);
+        System.out.println(n + " exporters of " + item);
+    }
+
     public void test() {
         whoExportsCoffee();
         testCountryInfo();
         testListExporters();
+        testNumberOfExporters();
     }
 
     public static void main(String[] args) {
