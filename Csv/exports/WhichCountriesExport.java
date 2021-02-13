@@ -27,6 +27,21 @@ public class WhichCountriesExport {
         return list;
     }
 
+    public ArrayList<String> bigExporters (CSVParser parser, String minValue) {
+        ArrayList<String> list = new ArrayList<String>();
+        //for each row in the CSV File
+        for (CSVRecord record : parser) {
+            //Look at the "Exports" column
+            String value = record.get("Value (dollars)");
+            //Check if it contains exportOfInterest
+            if (value.length() > minValue.length()) {
+                //If so, write down the "Country" from that row
+                list.add(record.get("Country"));
+            }
+        }
+        return list;
+    }
+
     public ArrayList<String> listExportersX(CSVParser parser, String exportOfInterestCsv) {
         ArrayList<String> list = new ArrayList<String>();
         String[] exportOfInterest = exportOfInterestCsv.split(",");
@@ -138,6 +153,17 @@ public class WhichCountriesExport {
         countryInfo(parser, "Malawi");
     }
 
+    public void testBigExporters(FileResource fr) {
+        System.out.println("\ntest testBigExporters");
+        CSVParser parser;
+        parser = fr.getCSVParser();
+        String minValue = "$123,999,999,999";
+        System.out.println("bigger than " + minValue + ":");
+        for (String record : bigExporters(parser, minValue)) {
+            System.out.println(record);
+        }
+    }
+
     public void testNumberOfExporters(FileResource fr){
         System.out.println("\ntest testNumberOfExporters");
         
@@ -168,6 +194,7 @@ public class WhichCountriesExport {
         testListExporters(fr);
         testNumberOfExporters(fr);
         testListExportersX(fr);
+        testBigExporters(fr);
     }
 
     public static void main(String[] args) {
