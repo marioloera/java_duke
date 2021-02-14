@@ -47,6 +47,24 @@ public class WeatherTemp2 {
         return resultRow;
     }
 
+    public double getAvgInFile(CSVParser parser, String field) {
+        //start with resultRow as nothing
+        double sum = 0.0;
+        int count = 0;
+        //For each row (currentRow) in the CSV File
+        for (CSVRecord currentRow : parser) {
+            String currFieldStr = currentRow.get(field);
+            // value for read error
+            if (currFieldStr.equals("-9999") || currFieldStr.equals("N/A")){
+                continue;
+            }
+            count++;
+            sum += Double.parseDouble(currFieldStr);
+        }
+        //The resultRow is the answer
+        return sum/count;
+    }
+
     public CSVRecord getMaxOrMinInManyDays(String maxOrMin, String field) {
         CSVRecord resultRow = null;
         DirectoryResource dr = new DirectoryResource();
@@ -91,8 +109,31 @@ public class WeatherTemp2 {
         CSVRecord coldest = getMaxOrMinHourInFile(fr.getCSVParser(), "min", field);
         System.out.println("coldes temperature was " + coldest.get(field) +
                     " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
+
+        String file = "2014/weather-2014-01-20.csv";
+        path = "../daily_nc_weather_data/" + file;
+        fr = new FileResource(path);
+
+        System.out.println("\n test Avg Temperature: "
+            + getAvgInFile(fr.getCSVParser(), field)
+            + " in InFile: " + file);
     }
 
+    public void testAvgInDay (String field) {
+
+        System.out.println("\n testAvgInDay:");
+        FileResource fr = new FileResource();
+
+        // print the date of the first row
+        for (CSVRecord currentRow : fr.getCSVParser()) {
+            // use method to compare two records
+            System.out.println(currentRow.get("DateUTC"));
+            break;
+        }
+
+        System.out.println("\n test Avg " + field + ": " +
+            + getAvgInFile(fr.getCSVParser(), field));
+    }
 
     public void test() {
         testMaxMinTempInDay();
