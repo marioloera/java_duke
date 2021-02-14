@@ -91,17 +91,21 @@ public class WeatherTemp {
                    " at " + largest.get("DateUTC"));
     }
 
-    public void testHottestInDay () {
-        System.out.println("\ntestHottestInDay:");
+    public void testHottesColdesttInDay () {
+        System.out.println("\testHottesColdesttInDay:");
         String path = "../daily_nc_weather_data/2015/weather-2015-01-01.csv";
         FileResource fr = new FileResource(path);
         CSVRecord largest = hottestHourInFile(fr.getCSVParser());
         System.out.println("hottest temperature was " + largest.get("TemperatureF") +
-                   " at " + largest.get("DateUTC"));
+                   " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
+        CSVRecord coldest = coldestHourInFile(fr.getCSVParser());
+        System.out.println("coldes temperature was " + coldest.get("TemperatureF") +
+                    " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
     }
 
+
     public void test() {
-        testHottestInDay();
+        testHottesColdesttInDay();
     }
 
     public static void main (String[] args) {
