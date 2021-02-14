@@ -47,81 +47,47 @@ public class WeatherTemp2 {
         return resultRow;
     }
 
-    public CSVRecord hottestHourInFile(CSVParser parser) {
-        //start with largestSoFar as nothing
-        CSVRecord largestSoFar = null;
-        //For each row (currentRow) in the CSV File
-        for (CSVRecord currentRow : parser) {
-            // use method to compare two records
-            largestSoFar = getMaxOrMinOfTwo(currentRow, largestSoFar, "max", "TemperatureF");
-        }
-        //The largestSoFar is the answer
-        return largestSoFar;
-    }
-
-    public CSVRecord coldestHourInFile(CSVParser parser) {
-        //start with smallestSoFar as nothing
-        CSVRecord smallestSoFar = null;
-        //For each row (currentRow) in the CSV File
-        for (CSVRecord currentRow : parser) {
-            // use method to compare two records
-            // smallestSoFar = getSmallestOfTwo(currentRow, smallestSoFar);
-            smallestSoFar = getMaxOrMinOfTwo(currentRow, smallestSoFar, "min", "TemperatureF");
-        }
-        //The largestSoFar is the answer
-        return smallestSoFar;
-    }
-
-    public CSVRecord hottestInManyDays() {
-        CSVRecord largestSoFar = null;
+    public CSVRecord getMaxOrMinInManyDays(String maxOrMin, String field) {
+        CSVRecord resultRow = null;
         DirectoryResource dr = new DirectoryResource();
         // iterate over files
         for (File f : dr.selectedFiles()) {
             FileResource fr = new FileResource(f);
             // use method to get largest in file.
-            CSVRecord currentRow = hottestHourInFile(fr.getCSVParser());
+            CSVRecord currentRow = getMaxOrMinHourInFile(fr.getCSVParser(), maxOrMin, field);
             // use method to compare two records
-            //largestSoFar = getLargestOfTwo(currentRow, largestSoFar);
-            largestSoFar = getMaxOrMinOfTwo(currentRow, largestSoFar, "max", "TemperatureF");
+            resultRow = getMaxOrMinOfTwo(currentRow, resultRow, maxOrMin, field);
         }
-        //The largestSoFar is the answer
-        return largestSoFar;
+        //The resultRow is the answer
+        return resultRow;
     }
 
-    public CSVRecord coldestInManyDays() {
-        CSVRecord smallestSoFar = null;
-        DirectoryResource dr = new DirectoryResource();
-        // iterate over files
-        for (File f : dr.selectedFiles()) {
-            FileResource fr = new FileResource(f);
-            // use method to get largest in file.
-            CSVRecord currentRow = coldestHourInFile(fr.getCSVParser());
-            // use method to compare two records
-            //smallestSoFar = getSmallestOfTwo(currentRow, smallestSoFar);
-            smallestSoFar = getMaxOrMinOfTwo(currentRow, smallestSoFar, "min", "TemperatureF");
-        }
-        //The largestSoFar is the answer
-        return smallestSoFar;
-    }
+    public void testInManyDays (String field) {
 
-    public void testInManyDays () {
-        System.out.println("\ntestInManyDays:");                   
-        CSVRecord largest = hottestInManyDays();
-        System.out.println("hottest temperature was " + largest.get("TemperatureF") +
+        System.out.println("\n testInManyDays:");
+
+        CSVRecord largest = getMaxOrMinInManyDays("max", field);
+        System.out.println(field + " max: " + largest.get(field) +
                    " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
-        CSVRecord coldest = coldestInManyDays();
-        System.out.println("coldes temperature was " + coldest.get("TemperatureF") +
+
+        CSVRecord coldest = getMaxOrMinInManyDays("min", field);
+        System.out.println(field + " min " + coldest.get(field) +
                     " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
+
     }
 
     public void testMaxMinTempInDay () {
-        String field = "TemperatureF";
+
         System.out.println("\n testMaxMinTempInDay:");
         String path = "../daily_nc_weather_data/2015/weather-2015-01-01.csv";
         FileResource fr = new FileResource(path);
+
+        String field = "TemperatureF";
+
         CSVRecord largest = getMaxOrMinHourInFile(fr.getCSVParser(), "max", field);
         System.out.println("hottest temperature was " + largest.get(field) +
                    " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
+
         CSVRecord coldest = getMaxOrMinHourInFile(fr.getCSVParser(), "min", field);
         System.out.println("coldes temperature was " + coldest.get(field) +
                     " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
@@ -132,9 +98,9 @@ public class WeatherTemp2 {
         testMaxMinTempInDay();
     }
     
-    public static void tesInManyDays () {
+    public static void tesInManyDays (String field) {
         WeatherTemp2 c = new WeatherTemp2();
-        c.testInManyDays();
+        c.testInManyDays(field);
     }
 
     public static void main (String[] args) {
