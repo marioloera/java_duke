@@ -89,11 +89,29 @@ public class WeatherTemp {
         return largestSoFar;
     }
 
-    public void testHottestInManyDays () {
-        System.out.println("\ntestHottestInDay:");
+    public CSVRecord coldestInManyDays() {
+        CSVRecord smallestSoFar = null;
+        DirectoryResource dr = new DirectoryResource();
+        // iterate over files
+        for (File f : dr.selectedFiles()) {
+            FileResource fr = new FileResource(f);
+            // use method to get largest in file.
+            CSVRecord currentRow = coldestHourInFile(fr.getCSVParser());
+            // use method to compare two records
+            smallestSoFar = getSmallestOfTwo(currentRow, smallestSoFar);
+        }
+        //The largestSoFar is the answer
+        return smallestSoFar;
+    }
+
+    public void testInManyDays () {
+        System.out.println("\ntestInManyDays:");                   
         CSVRecord largest = hottestInManyDays();
         System.out.println("hottest temperature was " + largest.get("TemperatureF") +
-                   " at " + largest.get("DateUTC"));
+                   " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
+        CSVRecord coldest = coldestInManyDays();
+        System.out.println("coldes temperature was " + coldest.get("TemperatureF") +
+                    " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
     }
 
     public void testHottesColdesttInDay () {
@@ -111,6 +129,11 @@ public class WeatherTemp {
 
     public void test() {
         testHottesColdesttInDay();
+    }
+    
+    public static void tesInManyDays () {
+        WeatherTemp c = new WeatherTemp();
+        c.testInManyDays();
     }
 
     public static void main (String[] args) {
