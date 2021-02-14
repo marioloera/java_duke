@@ -28,15 +28,20 @@ public class WeatherTemp {
     }
 
     public CSVRecord getSmallestOfTwo (CSVRecord currentRow, CSVRecord smallestSoFar) {
+        String currTempStr = currentRow.get("TemperatureF");
+        if (currTempStr.equals("-9999")){// value for read error
+            return smallestSoFar;
+        }
         //If largestSoFar is nothing
         if (smallestSoFar == null) {
             smallestSoFar = currentRow;
         }
         //Otherwise
         else {
-            double currentTemp = Double.parseDouble(currentRow.get("TemperatureF"));
+
+            double currentTemp = Double.parseDouble(currTempStr);
             double smallestTemp = Double.parseDouble(smallestSoFar.get("TemperatureF"));
-            //Check if currentRow’s temperature > largestSoFar’s
+            //Check if currentRow’s temperature > smallestTemp’s
             if (currentTemp < smallestTemp) {
                 //If so update largestSoFar to currentRow
                 smallestSoFar = currentRow;
@@ -92,7 +97,7 @@ public class WeatherTemp {
     }
 
     public void testHottesColdesttInDay () {
-        System.out.println("\testHottesColdesttInDay:");
+        System.out.println("\ntestHottesColdesttInDay:");
         String path = "../daily_nc_weather_data/2015/weather-2015-01-01.csv";
         FileResource fr = new FileResource(path);
         CSVRecord largest = hottestHourInFile(fr.getCSVParser());
