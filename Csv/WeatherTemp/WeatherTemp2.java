@@ -62,15 +62,43 @@ public class WeatherTemp2 {
             sum += Double.parseDouble(currFieldStr);
         }
         //The resultRow is the answer
+
         return sum/count;
     }
 
+    public String getAvgTempWithHighHumidity(CSVParser parser, double humidityLimit) {
+        //start with resultRow as nothing
+        double sum = 0.0;
+        int count = 0;
+        //For each row (currentRow) in the CSV File
+        for (CSVRecord currentRow : parser) {
+            String currFieldStr = currentRow.get("TemperatureF");
+            String currHumidityStr = currentRow.get("Humidity");
+            // value for read error
+            if (currFieldStr.equals("-9999") || currFieldStr.equals("N/A")
+               || currHumidityStr.equals("-9999") || currHumidityStr.equals("N/A")){
+                continue;
+            }
+            if (Double.parseDouble(currHumidityStr) < humidityLimit){
+                continue;
+            }
+            count++;
+            sum += Double.parseDouble(currFieldStr);
+        }
+        if (count == 0) {
+            return "No temperatures with that humidity";
+        }
+        //The resultRow is the answer
+        return Double.toString(sum/count);
+    }
+ 
     public CSVRecord getMaxOrMinInManyDays(String maxOrMin, String field) {
         CSVRecord resultRow = null;
         DirectoryResource dr = new DirectoryResource();
         // iterate over files
         for (File f : dr.selectedFiles()) {
             FileResource fr = new FileResource(f);
+            
             // use method to get largest in file.
             CSVRecord currentRow = getMaxOrMinHourInFile(fr.getCSVParser(), maxOrMin, field);
             // use method to compare two records
@@ -86,11 +114,11 @@ public class WeatherTemp2 {
 
         CSVRecord largest = getMaxOrMinInManyDays("max", field);
         System.out.println(field + " max: " + largest.get(field) +
-                   " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
+                   " at " + largest.get("DateUTC"));
 
         CSVRecord coldest = getMaxOrMinInManyDays("min", field);
         System.out.println(field + " min " + coldest.get(field) +
-                    " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
+                    " at "  + coldest.get("DateUTC"));
 
     }
 
@@ -99,16 +127,15 @@ public class WeatherTemp2 {
         System.out.println("\n testMaxMinTempInDay:");
         String path = "../daily_nc_weather_data/2015/weather-2015-01-01.csv";
         FileResource fr = new FileResource(path);
-
         String field = "TemperatureF";
 
         CSVRecord largest = getMaxOrMinHourInFile(fr.getCSVParser(), "max", field);
         System.out.println("hottest temperature was " + largest.get(field) +
-                   " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
+                   " at " + largest.get("DateUTC"));
 
         CSVRecord coldest = getMaxOrMinHourInFile(fr.getCSVParser(), "min", field);
         System.out.println("coldes temperature was " + coldest.get(field) +
-                    " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
+                    " at "  + coldest.get("DateUTC"));
 
         String file = "2014/weather-2014-01-20.csv";
         path = "../daily_nc_weather_data/" + file;
@@ -117,9 +144,28 @@ public class WeatherTemp2 {
         System.out.println("\n test Avg Temperature: "
             + getAvgInFile(fr.getCSVParser(), field)
             + " in InFile: " + file);
+
+        double humidityLimit;
+        file = "2014/weather-2014-01-20.csv";
+        path = "../daily_nc_weather_data/" + file;
+        fr = new FileResource(path);
+        humidityLimit = 80;
+        System.out.println("\n test getAvgTempWithHighHumidity: "
+            + getAvgTempWithHighHumidity(fr.getCSVParser(), humidityLimit)
+            + "\n humidityLimit: " + humidityLimit
+            + "\n in InFile: " + file);
+
+        file = "2014/weather-2014-03-20.csv";
+        path = "../daily_nc_weather_data/" + file;
+        fr = new FileResource(path);
+        humidityLimit = 80;
+        System.out.println("\n test getAvgTempWithHighHumidity: "
+            + getAvgTempWithHighHumidity(fr.getCSVParser(), humidityLimit)
+            + "\n humidityLimit: " + humidityLimit
+            + "\n in InFile: " + file);
     }
 
-    public void testAvgInDay (String field) {
+    public void testAvgInDay (String field, double humidityLimit) {
 
         System.out.println("\n testAvgInDay:");
         FileResource fr = new FileResource();
@@ -131,8 +177,15 @@ public class WeatherTemp2 {
             break;
         }
 
-        System.out.println("\n test Avg " + field + ": " +
-            + getAvgInFile(fr.getCSVParser(), field));
+        System.out.println(
+            "\n test Avg " + field + ": " +
+            + getAvgInFile(fr.getCSVParser(), field)
+        );
+            
+        System.out.println(
+            "\n test getAvgTempWith Higher Humidity than:  " + humidityLimit
+            + "\n : " + getAvgTempWithHighHumidity(fr.getCSVParser(), humidityLimit)
+        );
     }
 
     public void test() {
