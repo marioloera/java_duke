@@ -3,4 +3,4 @@
 *.class
 *.ctxt
 
-Csv/daily_nc_weather_data/*
+**/daily_nc_weather_data/**/*.csv
