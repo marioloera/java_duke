@@ -4,3 +4,4 @@
 *.ctxt
 
 **/daily_nc_weather_data/**/*.csv
+**/us_babynames_by_year/*.csv

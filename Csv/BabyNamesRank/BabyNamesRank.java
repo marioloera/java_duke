@@ -14,6 +14,8 @@ class NameRecord {
     public int births;
     public int year;
     public int rank;
+    public int Mbirths;
+    public int Fbirths;
 
     NameRecord (CSVRecord nameRecord, int year) {
         this.name = nameRecord.get(0);
@@ -21,6 +23,8 @@ class NameRecord {
         this.births = Integer.parseInt(nameRecord.get(2));
         this.rank = -1;
         this.year = year;
+        this.Mbirths = this.gender.equals("M") ? this.births : 0;
+        this.Fbirths = this.gender.equals("F") ? this.births : 0;
     }
 
     public String GetRecordOnLine () {
@@ -50,131 +54,57 @@ class NameRecord {
 
 public class BabyNamesRank {
 
-    public CSVRecord getLargestOfTwo (CSVRecord currentRow, CSVRecord largestSoFar) {
-        //If largestSoFar is nothing
-        if (largestSoFar == null) {
-            largestSoFar = currentRow;
-        }
-        //Otherwise
-        else {
-            double currentTemp = Double.parseDouble(currentRow.get("TemperatureF"));
-            double largestTemp = Double.parseDouble(largestSoFar.get("TemperatureF"));
-            //Check if currentRow’s temperature > largestSoFar’s
-            if (currentTemp > largestTemp) {
-                //If so update largestSoFar to currentRow
-                largestSoFar = currentRow;
+    public void totalBirthsBasic (FileResource fr) {
+        int totalBirths = 0;
+        int totalBoys = 0;
+        int totalGirls = 0;
+        for (CSVRecord rec : fr.getCSVParser(false)) {
+            int numBorn = Integer.parseInt(rec.get(2));
+            totalBirths += numBorn;
+            if (rec.get(1).equals("M")) {
+                totalBoys += numBorn;
+            }
+            else {
+                totalGirls += numBorn;
             }
         }
-        return largestSoFar;
+        System.out.println("total births = " + totalBirths);
+        System.out.println("female girls = " + totalGirls);
+        System.out.println("male boys = " + totalBoys);
     }
 
-    public CSVRecord getSmallestOfTwo (CSVRecord currentRow, CSVRecord smallestSoFar) {
-        String currTempStr = currentRow.get("TemperatureF");
-        if (currTempStr.equals("-9999")){// value for read error
-            return smallestSoFar;
+    public void totalBirths (FileResource fr) {
+        int totalBirths = 0;
+        int totalBoys = 0;
+        int totalGirls = 0;
+        for (CSVRecord csvRec : fr.getCSVParser(false)) {
+            int numBorn = Integer.parseInt(csvRec.get(2));
+            NameRecord nr = new NameRecord(csvRec, 0);
+            totalBirths += nr.births;
+            totalBoys += nr.Mbirths;
+            totalGirls += nr.Fbirths;
+            System.out.println(nr.GetRecordOnLine());
         }
-        //If largestSoFar is nothing
-        if (smallestSoFar == null) {
-            smallestSoFar = currentRow;
-        }
-        //Otherwise
-        else {
-
-            double currentTemp = Double.parseDouble(currTempStr);
-            double smallestTemp = Double.parseDouble(smallestSoFar.get("TemperatureF"));
-            //Check if currentRow’s temperature > smallestTemp’s
-            if (currentTemp < smallestTemp) {
-                //If so update largestSoFar to currentRow
-                smallestSoFar = currentRow;
-            }
-        }
-        return smallestSoFar;
+        System.out.println("total births = " + totalBirths);
+        System.out.println("female girls = " + totalGirls);
+        System.out.println("male boys = " + totalBoys);
     }
 
-    public CSVRecord hottestHourInFile(CSVParser parser) {
-        //start with largestSoFar as nothing
-        CSVRecord largestSoFar = null;
-        //For each row (currentRow) in the CSV File
-        for (CSVRecord currentRow : parser) {
-            // use method to compare two records
-            largestSoFar = getLargestOfTwo(currentRow, largestSoFar);
-        }
-        //The largestSoFar is the answer
-        return largestSoFar;
+    public void testTotalBirths(FileResource fr) {
+        System.out.println("\n totalBirthsBasic");
+        totalBirthsBasic(fr);
+        System.out.println("\n totalBirths");
+        totalBirths(fr);
     }
-
-    public CSVRecord coldestHourInFile(CSVParser parser) {
-        //start with smallestSoFar as nothing
-        CSVRecord smallestSoFar = null;
-        //For each row (currentRow) in the CSV File
-        for (CSVRecord currentRow : parser) {
-            // use method to compare two records
-            smallestSoFar = getSmallestOfTwo(currentRow, smallestSoFar);
-        }
-        //The largestSoFar is the answer
-        return smallestSoFar;
-    }
-
-    public CSVRecord hottestInManyDays() {
-        CSVRecord largestSoFar = null;
-        DirectoryResource dr = new DirectoryResource();
-        // iterate over files
-        for (File f : dr.selectedFiles()) {
-            FileResource fr = new FileResource(f);
-            // use method to get largest in file.
-            CSVRecord currentRow = hottestHourInFile(fr.getCSVParser());
-            // use method to compare two records
-            largestSoFar = getLargestOfTwo(currentRow, largestSoFar);
-        }
-        //The largestSoFar is the answer
-        return largestSoFar;
-    }
-
-    public CSVRecord coldestInManyDays() {
-        CSVRecord smallestSoFar = null;
-        DirectoryResource dr = new DirectoryResource();
-        // iterate over files
-        for (File f : dr.selectedFiles()) {
-            FileResource fr = new FileResource(f);
-            // use method to get largest in file.
-            CSVRecord currentRow = coldestHourInFile(fr.getCSVParser());
-            // use method to compare two records
-            smallestSoFar = getSmallestOfTwo(currentRow, smallestSoFar);
-        }
-        //The largestSoFar is the answer
-        return smallestSoFar;
-    }
-
-    public void testInManyDays () {
-        System.out.println("\ntestInManyDays:");                   
-        CSVRecord largest = hottestInManyDays();
-        System.out.println("hottest temperature was " + largest.get("TemperatureF") +
-                   " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
-        CSVRecord coldest = coldestInManyDays();
-        System.out.println("coldes temperature was " + coldest.get("TemperatureF") +
-                    " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
-    }
-
-    public void testHottesColdesttInDay () {
-        System.out.println("\ntestHottesColdesttInDay:");
-        String path = "../daily_nc_weather_data/2015/weather-2015-01-01.csv";
-        FileResource fr = new FileResource(path);
-        CSVRecord largest = hottestHourInFile(fr.getCSVParser());
-        System.out.println("hottest temperature was " + largest.get("TemperatureF") +
-                   " at " + largest.get("TimeEST") + " " + largest.get("DateUTC"));
-        CSVRecord coldest = coldestHourInFile(fr.getCSVParser());
-        System.out.println("coldes temperature was " + coldest.get("TemperatureF") +
-                    " at " + coldest.get("TimeEST") + " "  + coldest.get("DateUTC"));
-    }
-
 
     public void test() {
-        //testHottesColdesttInDay();
+        FileResource fr = new FileResource("us_babynames_datatest/yob2014short.csv");
+        testTotalBirths(fr);
     }
     
     public static void tesInManyDays () {
         BabyNamesRank c = new BabyNamesRank();
-        c.testInManyDays();
+        //c.testInManyDays();
     }
 
     public static void main (String[] args) {
