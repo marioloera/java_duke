@@ -144,6 +144,16 @@ public class BabyNamesRank {
         return "NO NAME";
     }
 
+    public void getNameIf (Integer year, String gender, String name, Integer year2){
+        int rank = getRank(year, gender, name);
+        String name2 = getName(year2, gender, rank);
+        String msg = String.format(
+            "(%1$s): %2$s -> (%3$s): %4$s",
+            year, name, year2, name2
+            );
+        System.out.println(msg);
+    }
+
     private Integer getTotalBirthsRankedHigher (Integer year, String gender, String name, FileResource fr) {
         int birthsRankedHigher = 0;
         NameRecord nr = null;
@@ -188,6 +198,9 @@ public class BabyNamesRank {
         int rank;
         rank = getRank(2014, "F", "Mia");
         System.out.println("getRank(2014, F, Mia) = " + rank);
+
+        getNameIf(1972, "F", "Susan", 2014);
+        getNameIf(1974, "M", "Owen", 2014);
     }
     
     private static void tesInManyDays () {
