@@ -54,6 +54,14 @@ class NameRecord {
 
 public class BabyNamesRank {
 
+    private FileResource getFile(Integer year) {
+        String file = String.format(
+            "us_babynames_by_year/yob%1$s.csv", year
+            );
+        FileResource fr = new FileResource(file);
+        return fr;
+    }
+
     private void totalBirthsBasic (FileResource fr) {
         int totalBirths = 0;
         int totalBoys = 0;
@@ -78,7 +86,6 @@ public class BabyNamesRank {
         int totalBoys = 0;
         int totalGirls = 0;
         for (CSVRecord csvRec : fr.getCSVParser(false)) {
-            int numBorn = Integer.parseInt(csvRec.get(2));
             NameRecord nr = new NameRecord(csvRec, 0);
             totalBirths += nr.births;
             totalBoys += nr.Mbirths;
@@ -87,14 +94,6 @@ public class BabyNamesRank {
         System.out.println(" total births = " + totalBirths);
         System.out.println("female births = " + totalGirls);
         System.out.println("  male births = " + totalBoys);
-    }
-
-    private FileResource getFile(Integer year) {
-        String file = String.format(
-            "us_babynames_by_year/yob%1$s.csv", year
-            );
-        FileResource fr = new FileResource(file);
-        return fr;
     }
 
     public void totalBirths(Integer year){
