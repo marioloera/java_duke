@@ -6,6 +6,7 @@
 import edu.duke.*;
 import org.apache.commons.csv.*;
 import java.io.*;
+import java.lang.Math.*;
 
 class NameRecord {
 
@@ -55,7 +56,10 @@ class NameRecord {
         //Otherwise
         else {
             //Check if currentRow’s temperature > largestSoFar’s
-            if (current.rank < largest.rank && current.rank != -1) {
+            if (
+                (current.rank < largest.rank && current.rank != -1)
+                || largest.rank == -1
+                ) {
                 //If so update largestSoFar to currentRow
                 largest = current;
             }
@@ -69,6 +73,7 @@ public class BabyNamesRank {
     private FileResource getFile(Integer year) {
         String file = String.format(
             "us_babynames_by_year/yob%1$s.csv", year
+            //"us_babynames_datatest/yob%1$sshort.csv", year
             );
         FileResource fr = new FileResource(file);
         return fr;
@@ -176,21 +181,53 @@ public class BabyNamesRank {
     }
 
     public void getStatistics (Integer year, String gender, String name, Integer year2){
+        getStatistics2(year, gender, name, year2);
+        //NameRecord highestRecord = new NameRecord(year, gender, name);
         NameRecord highestRecord = null;
         int rankAcc = 0;
         int count = 0;
         while (year <= year2){
-            //int rank = new NameRecord()
+            NameRecord nr = getRankRecord(year, gender, name);
             year++;
+            if (nr.rank == -1){
+                continue;
+            }
+            rankAcc += nr.rank;
+            highestRecord = NameRecord.getHigherRankOfTwo(nr, highestRecord);
+            count++;
         }
-        // int rank = getRank(year, gender, name);
-        // String name2 = getName(year2, gender, rank);
-        // String msg = String.format(
-        //     "(%1$s): %2$s -> (%3$s): %4$s",
-        //     year, name, year2, name2
-        //     );
-
+        System.out.println("\n getStatistics: ");
+        System.out.println(highestRecord.GetRecordOnLine());
+        Double rankAvg = Double.valueOf(rankAcc) / count;
+        System.out.println("\n rankAvg:" + rankAvg);
     }
+    
+    public void getStatistics2 (Integer year, String gender, String name, Integer year2){
+        //NameRecord highestRecord = new NameRecord(year, gender, name);
+        int minRank = Integer.MAX_VALUE;
+        int yearHigerRank = year;
+        int rankAcc = 0;
+        int count = 0;
+        while (year <= year2){
+            int rank = getRank(year, gender, name);
+            year++;
+            if (rank == -1) {
+                continue;
+            }
+            rankAcc += rank;
+            if (rank < yearHigerRank){
+                yearHigerRank = year-1;
+                minRank = rank;
+            }
+            count++;
+            
+        }
+        System.out.println("\n getStatistics2: ");
+        System.out.println("yearHigerRankr: " + yearHigerRank + " rank: " + minRank );
+        Double rankAvg = Double.valueOf(rankAcc) / count;
+        System.out.println("\n rankAvg:" + rankAvg);
+    }
+
 
     private Integer getTotalBirthsRankedHigher (Integer year, String gender, String name, FileResource fr) {
         int birthsRankedHigher = 0;
@@ -243,12 +280,16 @@ public class BabyNamesRank {
 
         getNameIf(1972, "F", "Susan", 2014);
         getNameIf(1974, "M", "Owen", 2014);
-        //getStatistics(1901, "M", "Mario", 1903);
-    }
-    
-    private static void tesInManyDays () {
-        BabyNamesRank c = new BabyNamesRank();
-        //c.testInManyDays();
+
+        // for test files
+        //getStatistics(2012, "M", "Mason", 2014);
+        //getStatistics(2012, "M", "Jacob", 2014);
+        
+        getStatistics(1880, "F", "Genevieve", 2014);
+        getStatistics(1880, "M", "Mich", 2014);
+        
+        getStatistics(1880, "F", "Susan", 2014);
+        getStatistics(1880, "M", "Robert", 2014);
     }
 
     public static void main (String[] args) {
