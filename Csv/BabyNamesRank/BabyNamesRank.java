@@ -147,6 +147,23 @@ public class BabyNamesRank {
         return null;
     }
 
+    private NameRecord getRankRecordOK (Integer year, String gender, String name) {
+        FileResource fr = getFile(year);
+        int rank = 0;
+        for (CSVRecord csvRec : fr.getCSVParser(false)) {
+            NameRecord nr = new NameRecord(csvRec, year);
+            if (!nr.gender.equals(gender)){
+                continue;
+            }
+            rank++;
+            if (nr.name.equals(name)){
+                nr.rank = rank;
+                return nr;
+            }
+        }
+        return null;
+    }
+
     public String getName (Integer year, String gender, Integer trgRank) {
         FileResource fr = getFile(year);
         int rank = 1;
