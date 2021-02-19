@@ -124,13 +124,13 @@ public class BabyNamesRank {
         totalBirths(getFile(year));
     }
 
-    public Integer getRank (Integer year, String gender, String name) {
+    public Integer getRank(Integer year, String gender, String name) {
         NameRecord nr = getRankRecord(year, gender, name);
-        int rank = nr != null ? nr.rank : -1;
-        return rank;
+        return nr.rank;
     }
 
     private NameRecord getRankRecord (Integer year, String gender, String name) {
+        NameRecord result = new NameRecord(year, gender, name);
         FileResource fr = getFile(year);
         int rank = 0;
         for (CSVRecord csvRec : fr.getCSVParser(false)) {
@@ -140,11 +140,12 @@ public class BabyNamesRank {
             }
             rank++;
             if (nr.name.equals(name)){
-                nr.rank = rank;
-                return nr;
+                result = nr;
+                result.rank = rank;
+                break;
             }
         }
-        return null;
+        return result;
     }
 
     private NameRecord getRankRecordOK (Integer year, String gender, String name) {
