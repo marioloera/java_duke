@@ -21,8 +21,20 @@ class NameRecord {
         this.name = nameRecord.get(0);
         this.gender = nameRecord.get(1);
         this.births = Integer.parseInt(nameRecord.get(2));
-        this.rank = -1;
         this.year = year;
+        this.init();
+    }
+
+    NameRecord (Integer year, String gender, String name) {
+        this.name = name;
+        this.gender = gender;
+        this.births = 0;
+        this.year = year;
+        this.init();
+    }
+
+    private void init() {
+        this.rank = -1;
         this.Mbirths = this.gender.equals("M") ? this.births : 0;
         this.Fbirths = this.gender.equals("F") ? this.births : 0;
     }
