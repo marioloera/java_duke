@@ -122,10 +122,26 @@ public class BabyNamesRank {
             }
             rank++;
             if (nr.name.equals(name)){
-                break;
+                return rank;
             }
         }
-        return rank;
+        return -1;
+    }
+
+    public String getName (Integer year, String gender, Integer trgRank) {
+        FileResource fr = getFile(year);
+        int rank = 1;
+        for (CSVRecord csvRec : fr.getCSVParser(false)) {
+            NameRecord nr = new NameRecord(csvRec, year);
+            if (!nr.gender.equals(gender)){
+                continue;
+            }
+            if (rank == trgRank) {
+                return nr.name;
+            }
+            rank++;
+        }
+        return "NO NAME";
     }
 
     private Integer getTotalBirthsRankedHigher (Integer year, String gender, String name, FileResource fr) {
