@@ -83,17 +83,28 @@ public class BabyNamesRank {
 
     private void totalBirths (FileResource fr) {
         int totalBirths = 0;
-        int totalBoys = 0;
-        int totalGirls = 0;
+        int boysBirths = 0;
+        int girlsBirths = 0;
+        int totalNames = 0;
+        int boysNames = 0;
+        int girlsNames = 0;
         for (CSVRecord csvRec : fr.getCSVParser(false)) {
             NameRecord nr = new NameRecord(csvRec, 0);
             totalBirths += nr.births;
-            totalBoys += nr.Mbirths;
-            totalGirls += nr.Fbirths;
+            boysBirths += nr.Mbirths;
+            girlsBirths += nr.Fbirths;
+            totalNames++;
+            boysNames+= nr.gender.equals("M") ? 1 : 0;
+            girlsNames+= nr.gender.equals("F") ? 1 : 0;
         }
-        System.out.println(" total births = " + totalBirths);
-        System.out.println("female births = " + totalGirls);
-        System.out.println("  male births = " + totalBoys);
+        System.out.println("total births = " + totalBirths);
+        System.out.println(" boys births = " + boysBirths);
+        System.out.println("girls births = " + girlsBirths);
+        System.out.println("");
+        System.out.println("total names = " + totalNames);
+        System.out.println(" boys names = " + boysNames);
+        System.out.println("girls names = " + girlsNames);
+        
     }
 
     public void totalBirths(Integer year){
