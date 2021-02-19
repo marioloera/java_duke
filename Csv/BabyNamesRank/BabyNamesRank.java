@@ -112,6 +112,22 @@ public class BabyNamesRank {
         totalBirths(getFile(year));
     }
 
+    public Integer getRank (Integer year, String gender, String name) {
+        FileResource fr = getFile(year);
+        int rank = 0;
+        for (CSVRecord csvRec : fr.getCSVParser(false)) {
+            NameRecord nr = new NameRecord(csvRec, year);
+            if (!nr.gender.equals(gender)){
+                continue;
+            }
+            rank++;
+            if (nr.name.equals(name)){
+                break;
+            }
+        }
+        return rank;
+    }
+
     private Integer getTotalBirthsRankedHigher (Integer year, String gender, String name, FileResource fr) {
         int birthsRankedHigher = 0;
         NameRecord nr = null;
@@ -153,7 +169,9 @@ public class BabyNamesRank {
         fr = new FileResource("us_babynames_datatest/yob2012short.csv");
         getTotalBirthsRankedHigher(2012, "M", "Ethan", fr);
 
-
+        int rank;
+        rank = getRank(2014, "F", "Mia");
+        System.out.println("getRank(2014, F, Mia) = " + rank);
     }
     
     private static void tesInManyDays () {
