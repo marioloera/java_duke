@@ -181,9 +181,9 @@ public class BabyNamesRank {
     }
 
     public void getStatistics (Integer year, String gender, String name, Integer year2){
-        getStatistics2(year, gender, name, year2);
-        //NameRecord highestRecord = new NameRecord(year, gender, name);
-        NameRecord highestRecord = null;
+        int year0 = year;
+        NameRecord highestRecord = new NameRecord(year, gender, name);
+        //NameRecord highestRecord = null;
         int rankAcc = 0;
         int count = 0;
         while (year <= year2){
@@ -200,10 +200,10 @@ public class BabyNamesRank {
         System.out.println(highestRecord.GetRecordOnLine());
         Double rankAvg = Double.valueOf(rankAcc) / count;
         System.out.println("\n rankAvg:" + rankAvg);
+        getStatistics2(year0, gender, name, year2);
     }
     
     public void getStatistics2 (Integer year, String gender, String name, Integer year2){
-        //NameRecord highestRecord = new NameRecord(year, gender, name);
         int minRank = Integer.MAX_VALUE;
         int yearHigerRank = year;
         int rankAcc = 0;
@@ -215,12 +215,11 @@ public class BabyNamesRank {
                 continue;
             }
             rankAcc += rank;
-            if (rank < yearHigerRank){
-                yearHigerRank = year-1;
+            if (rank < minRank){
+                yearHigerRank = year - 1;
                 minRank = rank;
             }
             count++;
-            
         }
         System.out.println("\n getStatistics2: ");
         System.out.println("yearHigerRankr: " + yearHigerRank + " rank: " + minRank );
