@@ -101,16 +101,18 @@ public class BabyNamesRank {
         totalBirths(getFile(year));
     }
 
-    private void testTotalBirths(FileResource fr) {
-        System.out.println("\n totalBirthsBasic");
-        totalBirthsBasic(fr);
-        System.out.println("\n totalBirths");
-        totalBirths(fr);
-    }
 
     private void test() {
-        FileResource fr = new FileResource("us_babynames_datatest/yob2014short.csv");
-        testTotalBirths(fr);
+
+        FileResource fr;
+
+        fr = new FileResource("us_babynames_datatest/yob2014short.csv");
+
+        System.out.println("\n test totalBirthsBasic");
+        totalBirthsBasic(fr);
+    
+        System.out.println("\n test totalBirths");
+        totalBirths(fr);
     }
     
     private static void tesInManyDays () {
