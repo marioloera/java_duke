@@ -152,6 +152,7 @@ public class BabyNamesRank {
     }
 
     public void getNameIf (Integer year, String gender, String name, Integer year2){
+        System.out.println("\n getNameIf:");
         int rank = getRank(year, gender, name);
         String name2 = getName(year2, gender, rank);
         String msg = String.format(
@@ -159,6 +160,23 @@ public class BabyNamesRank {
             year, name, year2, name2
             );
         System.out.println(msg);
+    }
+
+    public void getStatistics (Integer year, String gender, String name, Integer year2){
+        NameRecord highestRecord = null;
+        int rankAcc = 0;
+        int count = 0;
+        while (year <= year2){
+            //int rank = new NameRecord()
+            year++;
+        }
+        // int rank = getRank(year, gender, name);
+        // String name2 = getName(year2, gender, rank);
+        // String msg = String.format(
+        //     "(%1$s): %2$s -> (%3$s): %4$s",
+        //     year, name, year2, name2
+        //     );
+
     }
 
     private Integer getTotalBirthsRankedHigher (Integer year, String gender, String name, FileResource fr) {
@@ -212,6 +230,7 @@ public class BabyNamesRank {
 
         getNameIf(1972, "F", "Susan", 2014);
         getNameIf(1974, "M", "Owen", 2014);
+        //getStatistics(1901, "M", "Mario", 1903);
     }
     
     private static void tesInManyDays () {
