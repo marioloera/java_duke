@@ -68,9 +68,9 @@ public class BabyNamesRank {
                 totalGirls += numBorn;
             }
         }
-        System.out.println("total births = " + totalBirths);
-        System.out.println("female girls = " + totalGirls);
-        System.out.println("male boys = " + totalBoys);
+        System.out.println(" total births = " + totalBirths);
+        System.out.println("female births = " + totalGirls);
+        System.out.println("  male births = " + totalBoys);
     }
 
     public void totalBirths (FileResource fr) {
@@ -83,11 +83,10 @@ public class BabyNamesRank {
             totalBirths += nr.births;
             totalBoys += nr.Mbirths;
             totalGirls += nr.Fbirths;
-            System.out.println(nr.GetRecordOnLine());
         }
-        System.out.println("total births = " + totalBirths);
-        System.out.println("female girls = " + totalGirls);
-        System.out.println("male boys = " + totalBoys);
+        System.out.println(" total births = " + totalBirths);
+        System.out.println("female births = " + totalGirls);
+        System.out.println(  "male births = " + totalBoys);
     }
 
     public void testTotalBirths(FileResource fr) {
