@@ -113,6 +113,12 @@ public class BabyNamesRank {
     }
 
     public Integer getRank (Integer year, String gender, String name) {
+        NameRecord nr = getRankRecord(year, gender, name);
+        int rank = nr != null ? nr.rank : -1;
+        return rank;
+    }
+
+    private NameRecord getRankRecord (Integer year, String gender, String name) {
         FileResource fr = getFile(year);
         int rank = 0;
         for (CSVRecord csvRec : fr.getCSVParser(false)) {
@@ -122,10 +128,11 @@ public class BabyNamesRank {
             }
             rank++;
             if (nr.name.equals(name)){
-                return rank;
+                nr.rank = rank;
+                return nr;
             }
         }
-        return -1;
+        return null;
     }
 
     public String getName (Integer year, String gender, Integer trgRank) {
@@ -197,7 +204,11 @@ public class BabyNamesRank {
 
         int rank;
         rank = getRank(2014, "F", "Mia");
-        System.out.println("getRank(2014, F, Mia) = " + rank);
+        System.out.println("\n getRank(2014, F, Mia) = " + rank);
+
+        NameRecord nr = getRankRecord(2014, "F", "Mia");
+        System.out.println("\n getRankRecord(2014, F, Mia)\n" +
+            nr.GetRecordOnLine());
 
         getNameIf(1972, "F", "Susan", 2014);
         getNameIf(1974, "M", "Owen", 2014);
