@@ -54,7 +54,7 @@ class NameRecord {
 
 public class BabyNamesRank {
 
-    public void totalBirthsBasic (FileResource fr) {
+    private void totalBirthsBasic (FileResource fr) {
         int totalBirths = 0;
         int totalBoys = 0;
         int totalGirls = 0;
@@ -73,7 +73,7 @@ public class BabyNamesRank {
         System.out.println("  male births = " + totalBoys);
     }
 
-    public void totalBirths (FileResource fr) {
+    private void totalBirths (FileResource fr) {
         int totalBirths = 0;
         int totalBoys = 0;
         int totalGirls = 0;
@@ -86,22 +86,35 @@ public class BabyNamesRank {
         }
         System.out.println(" total births = " + totalBirths);
         System.out.println("female births = " + totalGirls);
-        System.out.println(  "male births = " + totalBoys);
+        System.out.println("  male births = " + totalBoys);
     }
 
-    public void testTotalBirths(FileResource fr) {
+    private FileResource getFile(Integer year) {
+        String file = String.format(
+            "us_babynames_by_year/yob%1$s.csv", year
+            );
+        FileResource fr = new FileResource(file);
+        return fr;
+    }
+
+    public void totalBirths(Integer year){
+        System.out.println("\n totalBirths " + year);
+        totalBirths(getFile(year));
+    }
+
+    private void testTotalBirths(FileResource fr) {
         System.out.println("\n totalBirthsBasic");
         totalBirthsBasic(fr);
         System.out.println("\n totalBirths");
         totalBirths(fr);
     }
 
-    public void test() {
+    private void test() {
         FileResource fr = new FileResource("us_babynames_datatest/yob2014short.csv");
         testTotalBirths(fr);
     }
     
-    public static void tesInManyDays () {
+    private static void tesInManyDays () {
         BabyNamesRank c = new BabyNamesRank();
         //c.testInManyDays();
     }
